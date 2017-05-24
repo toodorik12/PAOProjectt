@@ -1,5 +1,10 @@
 
 package paoproject;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
@@ -7,6 +12,12 @@ public class Admin {
 
        String username;
        String password;
+
+    public Admin(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+       
        
        public void CreateUser(){
            Scanner sc;
@@ -32,6 +43,17 @@ public class Admin {
            sc = new Scanner(System.in);
            System.out.println("Enter the category to be added: ");
            category = sc.next();
+           SQLConnection s = new SQLConnection();
+            try{
+                Class.forName(s.getDriver()).newInstance();
+                Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
+                Statement st = conn.createStatement();
+                int i = st.executeUpdate("INSERT into categories VALUES('"+category+"')");
+                if(i==1) System.out.println("Correctly added");
+                 conn.close();
+                } catch (Exception e) {
+		  e.printStackTrace();
+		  }
            
        }
        
@@ -51,11 +73,37 @@ public class Admin {
            System.out.println("Enter the number of pages: ");
            pgnr = sc.nextInt();
            Book newbook = new Book(bookname,author, pgnr, price);
-           
+           SQLConnection s = new SQLConnection();
+        try{
+            Class.forName(s.getDriver()).newInstance();
+            Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
+            Statement st = conn.createStatement();
+            int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"')");
+            if(i==1) System.out.println("Correctly added");
+            conn.close();
+        } catch (Exception e) {
+		  e.printStackTrace();
+		  }  
        }
        
-       public void SeeCategories(){  //ia din baza de date si pune intr-o lista pentru afisare
-           
+       public void SeeCategories() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+           SQLConnection s = new SQLConnection();
+        try{
+            Class.forName(s.getDriver()).newInstance();
+            Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
+            Statement st = conn.createStatement();
+            ResultSet res = st.executeQuery("SELECT * FROM  users");
+            while (res.next()) {
+		  String category = res.getString("category_name");
+		  
+		  System.out.print(category + " ");
+            }
+            //int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"')");
+           // if(i==1) System.out.println("Correctly added");
+            conn.close();
+        } catch (Exception e) {
+		  e.printStackTrace();
+		  }
        }
        
        public void SeeOrders(){  

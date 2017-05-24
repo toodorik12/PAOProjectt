@@ -43,7 +43,7 @@ public class SQLConnection {
         dbName = "bookstore_users";
         driver = "com.mysql.jdbc.Driver";
         username = "root"; 
-        password = "1234";
+        password = "";
     }
     
     
