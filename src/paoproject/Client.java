@@ -1,9 +1,6 @@
 
 package paoproject;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import java.sql.*;
 /**
  *
  * @author Stefanicus
@@ -68,8 +65,32 @@ public class Client {
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        Client.usersnumber++;
+        //Client.usersnumber++;
         //odata ce e creat un client nou, va fi si pus in baza de date
+        //connection to java
+        /*SQLConnection s = new SQLConnection();
+        try{
+            Class.forName(s.getDriver()).newInstance();
+            Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
+            Statement st = conn.createStatement();
+            int i = st.executeUpdate("INSERT into users VALUES('"+this.username+"','"+this.firstname+"','"+this.lastname+"','"+this.email+"','"+this.password+"')");
+            if(i==1) System.out.println("Correctly inserted");
+        } catch (Exception e) {
+		  e.printStackTrace();
+		  }*/
+                  String curl = "jdbc:mysql://localhost:3306/";
+		  String cdbName = "bookstore_users";
+		  String cdriver = "com.mysql.jdbc.Driver";
+		  String cuserName = "root"; 
+		  String cpassword = "";
+		  try {
+		  Class.forName(cdriver).newInstance();
+		  Connection conn = DriverManager.getConnection(curl+cdbName,cuserName,cpassword);
+		  Statement st = conn.createStatement();
+                  int i = st.executeUpdate("INSERT into users VALUES('"+this.username+"','"+this.firstname+"','"+this.lastname+"','"+this.email+"','"+this.password+"')");
+                  if(i==1) System.out.println("Correctly inserted");
+                  } catch (Exception e) {
+		  e.printStackTrace();}
     }
       
     
