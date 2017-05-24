@@ -1,23 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package paoproject;
 
+package paoproject;
 import java.util.Scanner;
 
-/**
- *
- * @author Stefanicus
- */
+
 public class Admin {
 
        String username;
        String password;
        
        public void CreateUser(){
-           
+           Scanner sc;
+           sc= new Scanner(System.in);
+           System.out.println("Username: ");
+           String userusername;
+           userusername = sc.next();
+           System.out.println("Password: ");
+           String userpassword;
+           userpassword = sc.next();
+           System.out.println("First Name: ");
+           String firstname = sc.next();
+           System.out.println("Last name: ");
+           String lastname = sc.next();
+           System.out.println("Email: ");
+           String email = sc.next();
+           Client newclient = new Client(userusername, firstname, lastname, email, userpassword);
        }
        
        public void AddCategory(){
@@ -34,7 +40,7 @@ public class Admin {
            String bookname;
            String author;
            float price;
-           int pgnumber ;
+           int pgnr ;
            sc = new Scanner(System.in);
            System.out.println("Enter the book to be added: ");
            bookname = sc.next();
@@ -43,15 +49,16 @@ public class Admin {
            System.out.println("Enter the price of the book: ");
            price = sc.nextFloat();
            System.out.println("Enter the number of pages: ");
-           pgnumber = sc.nextInt();
+           pgnr = sc.nextInt();
+           Book newbook = new Book(bookname,author, pgnr, price);
            
        }
        
-       public void SeeCategories(){
+       public void SeeCategories(){  //ia din baza de date si pune intr-o lista pentru afisare
            
        }
        
-       public void SeeOrders(){
+       public void SeeOrders(){  
            
        }
        

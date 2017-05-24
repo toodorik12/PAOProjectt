@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package paoproject;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,6 +15,7 @@ public class Client {
       String email;
       String password;
       static Integer usersnumber;
+      
 
       
       
@@ -72,6 +69,7 @@ public class Client {
         this.email = email;
         this.password = password;
         Client.usersnumber++;
+        //odata ce e creat un client nou, va fi si pus in baza de date
     }
       
     
