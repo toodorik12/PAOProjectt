@@ -11,7 +11,9 @@ public class Client {
       String lastname;
       String email;
       String password;
-      static Integer usersnumber;
+      //static Integer usersnumber;
+      
+      
       
 
       
