@@ -14,6 +14,7 @@ public class Book {
     String author;
     int pgnr;
     float price;
+    int quantity = 0;
     //static int nrb = 0;
 
     public Book(String name, String author, int pgnr, float price) {
@@ -22,6 +23,20 @@ public class Book {
         this.pgnr = pgnr;
         this.price = price;
        // nrb++;
+    }
+    
+    public Book(String name, String author, int pgnr, float price, int quantity) {
+        this.name = name;
+        this.author = author;
+        this.pgnr = pgnr;
+        this.price = price * quantity;
+        this.quantity = quantity;
+        
+       // nrb++;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getName() {

@@ -14,15 +14,32 @@ public class Main {
     /**
      */
     
-    public void Register() //doar pentru admin
+    public static void Register() //doar pentru admin
     {
-        
-    }
+           Scanner sc;
+           sc= new Scanner(System.in);
+           System.out.println("Username: ");
+           String userusername;
+           userusername = sc.next();
+           System.out.println("Password: ");
+           String userpassword;
+           userpassword = sc.next();
+           System.out.println("First Name: ");
+           String firstname = sc.next();
+           System.out.println("Last name: ");
+           String lastname = sc.next();
+           System.out.println("Email: ");
+           String email = sc.next();
+           String property = "admin";
+           Client newclient = new Client(userusername, firstname, lastname, email, userpassword,property);
+       }
+    
     
     /**
      *
      */
-    public void Login() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+    public static void Login() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException{
+        System.out.print("\b\b\b\b\b");
            String username;
            String password;
            Scanner sc = new Scanner(System.in);
@@ -63,7 +80,7 @@ public class Main {
                 }
             } catch (Exception e) {
                   System.out.println("Incorrect username or password!");
-		  e.printStackTrace();
+		  //e.printStackTrace();
 		  }   
             
             }
@@ -71,7 +88,7 @@ public class Main {
            
     
          
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException  {
         // TODO code application logic here
         //Client newclient;
         //newclient = new Client ("user2","alex","popa","alex@gmail.com","parola2");
@@ -86,6 +103,7 @@ public class Main {
         } catch (Exception e) {
 		  e.printStackTrace();
 		  }*/
+       Login();
             
-}
+     }
 }

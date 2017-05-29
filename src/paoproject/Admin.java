@@ -20,6 +20,7 @@ public class Admin {
        
        
        public void CreateUser(){
+           System.out.print("\b\b\b\b\b");
            Scanner sc;
            sc= new Scanner(System.in);
            System.out.println("Username: ");
@@ -39,6 +40,7 @@ public class Admin {
        }
        
        public void AddCategory(){
+           System.out.print("\b\b\b\b\b");
            Scanner sc;
            String category;
            sc = new Scanner(System.in);
@@ -59,6 +61,7 @@ public class Admin {
        }
        
        public void AddBook(){
+           System.out.print("\b\b\b\b\b");
            Scanner sc;
            String bookname;
            String author;
@@ -67,9 +70,9 @@ public class Admin {
            int pgnr ;
            sc = new Scanner(System.in);
            System.out.println("Enter the book to be added: ");
-           bookname = sc.next();
+           bookname = sc.nextLine();
            System.out.println("Enter the author of the book: ");
-           author = sc.next();
+           author = sc.nextLine();
            System.out.println("Enter the price of the book: ");
            price = sc.nextFloat();
            System.out.println("Enter the number of pages: ");
@@ -90,7 +93,7 @@ public class Admin {
 		  }  
        }
        
-       public void SeeCategories() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+       public void SeeCategories() {
            SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();
@@ -110,13 +113,14 @@ public class Admin {
 		  }
        }
        
-       public int SeeOrders(){  
+       public int SeeOrders(){ 
+           System.out.print("\b\b\b\b\b");
            SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  unporocessed_orders");
+            ResultSet res = st.executeQuery("SELECT * FROM  unprocessed_orders");
             
             while (res.next()) {
                   int nr = res.getInt("nr");
@@ -125,7 +129,7 @@ public class Admin {
                   String book = res.getString("book");
                   int quantity = res.getInt("quantity");
                   float price = res.getFloat("price");
-		  System.out.print(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
+		  System.out.println(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
                   
             }
             //int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"')");
@@ -147,12 +151,13 @@ public class Admin {
        
       public void process_order() throws SQLException
       {
+          System.out.print("\b\b\b\b\b");
             SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  unporocessed_orders");
+            ResultSet res = st.executeQuery("SELECT * FROM  unprocessed_orders");
             
             while (res.next()) {
                   int nr = res.getInt("nr");
@@ -162,15 +167,15 @@ public class Admin {
                   int quantity = res.getInt("quantity");
                   float price = res.getFloat("price");
              
-		  System.out.print(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
+		  System.out.println(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
                 }
             System.out.println();
             System.out.println("Enter the order to be processed: ");
             Scanner sc = new Scanner(System.in);
             int nro = sc.nextInt();
             res.absolute(nro);   
-            st.executeQuery("INSERT INTO `orders_history`(`nr`, `user`, `date`, `book`, `quantity`, `price`) VALUES ("+res.getInt("nr")+","+res.getString("user")+","+res.getString("date")+","+res.getString("book")+","+res.getInt("quantity")+","+res.getString("price")+")  ");
-            st.executeQuery("DELETE FROM unprocessed_orders WHERE columnvalue = "+nro+"");
+            st.executeUpdate("INSERT INTO `orders_history`(`nr`, `user`, `date`, `book`, `quantity`, `price`) VALUES ('"+res.getInt("nr")+"','"+res.getString("user")+"','"+res.getString("date")+"','"+res.getString("book")+"','"+res.getInt("quantity")+"','"+res.getString("price")+"')  ");
+            st.executeUpdate("DELETE FROM unprocessed_orders WHERE nr = '"+res.getInt("nr")+"'   ");
             conn.close();
             
                 
@@ -181,12 +186,13 @@ public class Admin {
       }
        
        public void SeeHistory(){
+           System.out.print("\b\b\b\b\b");
            SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  unporocessed_orders");
+            ResultSet res = st.executeQuery("SELECT * FROM  unprocessed_orders");
             
             while (res.next()) {
                  int nr = res.getInt("nr");
@@ -210,6 +216,12 @@ public class Admin {
        
        public void AdminMenu()
        {
+           //CreateUser();
+           //AddCategory();
+           //AddBook();
+          //SeeCategories();
+           SeeOrders();
+           SeeHistory();
            
        }
 }

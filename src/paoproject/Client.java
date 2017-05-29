@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Scanner;
 /**
  *
@@ -22,8 +23,7 @@ public class Client {
       //static Integer usersnumber;
       //static int id = 0;
       String property;
-      List<Book> cart;
-      
+      List<Book> cart;      
 
       
       
@@ -73,6 +73,7 @@ public class Client {
     public Client(String username, String password){
         this.username = username;
         this.password = password;
+        //this.cart = new ArrayList<Book>;
     }
 
     public Client(String username, String firstname, String lastname, String email, String password, String property) {
@@ -103,6 +104,7 @@ public class Client {
     
     public void SeeBooks()
     {
+         System.out.print("\b\b\b\b\b");
            Scanner sc;
            String bookname;
            String author;
@@ -117,7 +119,7 @@ public class Client {
             Statement st = conn.createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  books");
             while (res.next()) {
-		 bookname = res.getString("bookname");
+		 bookname = res.getString("nume");
 		  author = res.getString("autor");
 		 category = res.getString("category");
                  pgnr = res.getInt("nrpg");
@@ -136,9 +138,9 @@ public class Client {
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  books WHERE lower(nume) = lower( "+book2+")");
+            ResultSet res = st.executeQuery("SELECT * FROM  books WHERE lower(nume) = lower( '"+book2+"')");
             while (res.next()) {
-		 bookname = res.getString("bookname");
+		 bookname = res.getString("nume");
 		 author = res.getString("autor");
 		 category = res.getString("category");
                  pgnr = res.getInt("nrpg");
@@ -148,9 +150,8 @@ public class Client {
                 if(bookname.equals(book2)){
                     System.out.println("Enter the quantity: ");
                     int q = sc.nextInt();
-                    Book book = new Book(bookname, author, pgnr, price);
-                    book.price = book.price*q;
-                    AddToCart(book,q);
+                    Book book = new Book(bookname, author, pgnr, price, q);
+                    AddToCart(book);
                     break;
                 }
             }
@@ -166,23 +167,45 @@ public class Client {
      *
      * @param book
      */
-    public void AddToCart(Book book, int quantity){
-         int i;
-        for(i=0;i<quantity;i++)
-        {
-            cart.add(book);
-        }
+    public void AddToCart(Book book){
+       cart = new ArrayList<>();
+       cart.add(book);
     }
     
     public void SeeCart(){
-        cart.stream().forEach((o) -> System.out.println(o));
+        cart.stream().forEach((o) -> System.out.println(o.name + " "+ o.author + " " + o.price + " " + o.quantity));
+        System.out.println("1.Order");
+        System.out.println("2.Return");
+        Scanner sc = new Scanner(System.in);
+        int i = sc.nextInt();
+        if (i == 1) Order();
+        else if(i==2){}
+        else System.out.println("Comanda incorecta");
+        
     }
     
     public void Order(){
-        
+        SQLConnection s = new SQLConnection();
+        try{
+            Class.forName(s.getDriver()).newInstance();
+            Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
+            Statement st = conn.createStatement();
+            for( int j = 0; j< cart.size();j++)
+            {
+                  Random rand = new Random();
+                  int x = rand.nextInt(200 - 1 + 1) + 1;
+                  int i = 0;
+                  i = st.executeUpdate("INSERT into unprocessed_orders VALUES("+x+",'"+this.username+"',CURRENT_TIMESTAMP,'"+cart.get(i).getName()+"',"+cart.get(i).getQuantity()+","+cart.get(i).getPrice()+")");
+                  if(i==1) System.out.println("Correctly placed order.");
+            }
+            conn.close();
+        } catch (Exception e) {
+		  e.printStackTrace();
+		  }  
     }
     
     public void ClientMenu(){
-        
+        SeeBooks();
+        SeeCart();
     }
 }
