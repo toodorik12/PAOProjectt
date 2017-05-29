@@ -14,12 +14,14 @@ public class Book {
     String author;
     int pgnr;
     float price;
+    //static int nrb = 0;
 
     public Book(String name, String author, int pgnr, float price) {
         this.name = name;
         this.author = author;
         this.pgnr = pgnr;
         this.price = price;
+       // nrb++;
     }
 
     public String getName() {

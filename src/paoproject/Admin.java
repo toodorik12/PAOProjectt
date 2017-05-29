@@ -34,7 +34,8 @@ public class Admin {
            String lastname = sc.next();
            System.out.println("Email: ");
            String email = sc.next();
-           Client newclient = new Client(userusername, firstname, lastname, email, userpassword);
+           String property = "user";
+           Client newclient = new Client(userusername, firstname, lastname, email, userpassword,property);
        }
        
        public void AddCategory(){
@@ -61,6 +62,7 @@ public class Admin {
            Scanner sc;
            String bookname;
            String author;
+           String category;
            float price;
            int pgnr ;
            sc = new Scanner(System.in);
@@ -72,13 +74,15 @@ public class Admin {
            price = sc.nextFloat();
            System.out.println("Enter the number of pages: ");
            pgnr = sc.nextInt();
+            System.out.println("Enter the category of the book: ");
+           category = sc.next();
            Book newbook = new Book(bookname,author, pgnr, price);
            SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"')");
+            int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"','"+category+"')");
             if(i==1) System.out.println("Correctly added");
             conn.close();
         } catch (Exception e) {
@@ -92,7 +96,7 @@ public class Admin {
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  users");
+            ResultSet res = st.executeQuery("SELECT * FROM  categories");
             while (res.next()) {
 		  String category = res.getString("category_name");
 		  
@@ -115,7 +119,7 @@ public class Admin {
             ResultSet res = st.executeQuery("SELECT * FROM  unporocessed_orders");
             
             while (res.next()) {
-                 int nr = res.getInt("nr");
+                  int nr = res.getInt("nr");
 		  String user = res.getString("user");
 		  String date = res.getString("date");
                   String book = res.getString("book");
@@ -201,5 +205,11 @@ public class Admin {
 		  e.printStackTrace();
 		  }
        
-       }  
+       } 
+       
+       
+       public void AdminMenu()
+       {
+           
+       }
 }
