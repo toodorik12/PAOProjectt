@@ -132,7 +132,7 @@ public class Client {
 		  e.printStackTrace();
 		  }
         System.out.println("Enter the name of the book you want to purchase: ");
-        String book2= sc.next();
+        String book2= sc.nextLine();
         //SQLConnection s = new SQLConnection();
         try{
             Class.forName(s.getDriver()).newInstance();

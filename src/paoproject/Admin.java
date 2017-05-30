@@ -158,9 +158,9 @@ public class Admin {
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
             ResultSet res = st.executeQuery("SELECT * FROM  unprocessed_orders");
-            
+            int nr = 0;
             while (res.next()) {
-                  int nr = res.getInt("nr");
+                  nr ++;
 		  String user = res.getString("user");
 		  String date = res.getString("date");
                   String book = res.getString("book");
@@ -174,8 +174,9 @@ public class Admin {
             Scanner sc = new Scanner(System.in);
             int nro = sc.nextInt();
             res.absolute(nro);   
+            int nrr = res.getInt("nr");
             st.executeUpdate("INSERT INTO `orders_history`(`nr`, `user`, `date`, `book`, `quantity`, `price`) VALUES ('"+res.getInt("nr")+"','"+res.getString("user")+"','"+res.getString("date")+"','"+res.getString("book")+"','"+res.getInt("quantity")+"','"+res.getString("price")+"')  ");
-            st.executeUpdate("DELETE FROM unprocessed_orders WHERE nr = '"+res.getInt("nr")+"'   ");
+            st.executeUpdate("DELETE FROM unprocessed_orders WHERE nr = '"+nrr+"'   ");
             conn.close();
             
                 
@@ -192,7 +193,7 @@ public class Admin {
             Class.forName(s.getDriver()).newInstance();
             Connection conn = DriverManager.getConnection(s.getUrl()+s.getDbName(),s.getUsername(),s.getPassword());
             Statement st = conn.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM  unprocessed_orders");
+            ResultSet res = st.executeQuery("SELECT * FROM  orders_history");
             
             while (res.next()) {
                  int nr = res.getInt("nr");
@@ -201,7 +202,7 @@ public class Admin {
                   String book = res.getString("book");
                   int quantity = res.getInt("quantity");
                   float price = res.getFloat("price");
-		  System.out.print(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
+		  System.out.println(nr +". " + user + ": " + date + " " + "book" + " " + quantity + " " + price);
                   
             }
             //int i = st.executeUpdate("INSERT into books VALUES('"+bookname+"','"+author+"','"+pgnr+"','"+price+"')");

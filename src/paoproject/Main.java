@@ -103,6 +103,8 @@ public class Main {
         } catch (Exception e) {
 		  e.printStackTrace();
 		  }*/
+       //Register();
+       Login();
        Login();
             
      }
